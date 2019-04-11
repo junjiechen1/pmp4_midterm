@@ -7,7 +7,7 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,TextInput,Button} from 'react-native';
+import {Platform, StyleSheet,Text, TextInput, View,Button} from 'react-native';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -18,29 +18,51 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
- 
-  state ={
-    placename:""
+  state = {
+    placeName:"",
+    places:[]
   };
 
   placeNameChangeHandler = val =>{
     this.setState({
-      placename:val
+      placeName:val
+    });
+  };
+  placeSubmitHandler=()=>{
+    if(this.state.placeName.trim() === ""){
+      return;
+    }
+    this.setState(prevState=>{
+      return{
+        places: prevState.places.concat(prevState.placeName)
+      };
     });
   };
 
   render() {
+    const placeOutPut = this.state.places.map((place,i)=>
+      <Text key={i}>{place}</Text>
+    );
     return (
       <View style={styles.container}>
-         <TextInput
-         style={{width:300}}
-         placeholder = "an awsome place"
-         value ={this.state.placename}
-         onChangeText = {this.placeNameChangeHandler}
-         />
-         <Button title = "Add"/>
-
+        <View style = {styles.inputContainer}>
+        <TextInput
+        style ={{width: 300, height: 40 , borderColor:"black",borderWidth:1}}
+        placeholder="placeholder"
+        value = {this.state.placeName} 
+        onChangeText = {this.placeNameChangeHandler}
+        
+        />
+        <Button
+        title = "Add" 
+        onPress = {this.placeSubmitHandler}
+        />
+        </View>
+        <View>
+        {placeOutPut}
+        </View>
       </View>
+      
     );
   }
 }
@@ -48,19 +70,20 @@ export default class App extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding:100,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding:40,
+    textAlign:'center',
+    justifyContent:"flex-start",
+    backgroundColor: '#fff',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  inputContainer:{
+    width:"100%",
+    flexDirection:"row",
+    justifyContent:"space-between",
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  placeInput:{
+    width:"70%"
   },
+  placeButton:{
+    width:"30%"
+  }
 });
