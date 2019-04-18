@@ -1,0 +1,3 @@
+rootProject.name = 'pmp4_demo_project'
+
+include ':app'
