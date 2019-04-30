@@ -12,7 +12,6 @@ const placeDetail = props => {
       </View>
     );
   }
-  //test
   return (
     <Modal
       onRequestClose={props.onModalClosed}
